@@ -6,4 +6,12 @@ class Model_paket extends CI_Model
 	{
 		return $this->db->get("db_paket");
 	}
+
+
+	public function tambah_paket($data, $table)
+	{
+		$this->db->insert($table, $data);
+	}
+
 }
+

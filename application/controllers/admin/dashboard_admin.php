@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 class Dashboard_admin extends CI_COntroller
 {

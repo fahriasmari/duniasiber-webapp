@@ -19,24 +19,24 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
+      <!-- dialihkan ke folder controllers admin -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href=" <?php echo base_url('admin/dashboard_admin') ?> ">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
 
-
       <!-- Nav Item - Tables || produk membership -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-calendar-day"></i>
+        <a class="nav-link" href="  <?php echo base_url('admin/data_paket') ?>  ">
+          <i class="fas fa-fw fa-database"></i>
           <span>Data Paket</span></a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-calendar-week"></i>
-          <span>Invoices</span></a>
+        <a class="nav-link" href=" <?php echo base_url('admin/dashboard_invoices') ?> ">
+          <i class="fas fa-fw fa-file-invoice"></i>
+          <span>Invoice</span></a>
       </li>
 
       <!-- Divider -->
