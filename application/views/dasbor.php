@@ -1,18 +1,22 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="utf-8">
-  <title> ~ </title>
-</head>
-<body>
-  <?php
-  echo "statuslogin :"; var_dump($_SESSION['statuslogin']); echo "<br>";
-  echo $_SESSION['nama']. "<br>";
-  echo $_SESSION['peran']. "<br>";
+<!-- desain UI masih dapat berubah-ubah sebelum masuk production -->
+<?php
+$data["title"]        = "DuniaSiber";
+$data["frameworkCss"] = "bootstrap";
+$this->load->view("layout/header", $data);
+?>
 
-  unset($_SESSION['statusLogin']);
-  unset($_SESSION['nama']);
-  unset($_SESSION['peran']);
-  ?>
-</body>
-</html>
+<?php
+// ( hanya untuk sementara )
+if(isset($_SESSION["statuslogin"]) == "sedangLogin") {
+  echo @$_SESSION["nama"]. "<br>";
+  echo @$_SESSION["peran"]. "<br>";
+
+  unset($_SESSION["statusLogin"]);
+  unset($_SESSION["nama"]);
+  unset($_SESSION["peran"]);
+}
+?>
+
+<?php
+$this->load->view("layout/footer");
+?>

@@ -1,26 +1,122 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-  <meta charset="utf-8">
-  <title> ~ </title>
-</head>
-<body>
-  <h3> login </h3>
-  <?php
-  if(isset($pesanErr)) {
-  ?>
-    <h4 style="color: red;"> <?= $pesanErr ?> </h4>
-  <?php
+<!-- desain UI masih dapat berubah-ubah sebelum masuk production -->
+<?php
+$data["title"]        = "DuniaSiber";
+$data['frameworkCss'] = "bootstrap";
+$this->load->view("layout/header", $data);
+?>
+
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-4 my-5">
+      <div class="card bg-light my-5">
+        <div class="card-body">
+          <h4 class="card-title mb-4 text-center"> Login Akun </h4>
+          <?php
+          if(isset($alert)) {
+          ?>
+          <div class="alert alert-danger" role="alert">                                                                    <!-- ( alert ) -->
+            <strong> <?= $alert ?> </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <?php
+          }
+          ?>
+          <form id="formId" action="http://127.0.0.1/duniasiber/index.php/Autentikasi/loginAkun" method="post">
+            <div class="form-group">
+              <label> Username / Email </label>
+              <div class="input-group" id="user-input">
+                <input type="text" class="form-control" name="userTxt" id="userId">                                        <!-- input username/email -->
+                <div class="input-group-append">
+                  <span class="input-group-text"> <i class="far fa-user"></i> </span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label> Password </label>
+              <div class="input-group" id="password-input">
+                <input type="password" class="form-control" name="passwordTxt" id="passwordId">                            <!-- input password -->
+                <div class="input-group-append">
+                  <span class="input-group-text"> <i class="fas fa-lock"></i> </span>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="form-group text-center">
+              <input type="submit" class="btn btn-success btn-lg" value="Login">
+            </div>
+            <div class="form-group text-center">
+              <a href="http://127.0.0.1/duniasiber/index.php/Autentikasi/lupaPassword" class="text-secondary"> Lupa Password? </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+
+var inputValid = false;
+
+$("body").attr("class", "bg-dark");                                             // background gelap ( body class="bg-dark" )
+
+$("#formId").on("submit", function(event) {
+  if(!inputValid) {
+    event.preventDefault();
+  }else {
+    return;
   }
-  ?>
-  <form action="http://127.0.0.1/duniasiber/index.php/Autentikasi/loginAkun" method="post">
-    <label> username/email </label>
-      <input type="text" name="userTxt"> <br>
-    <label> Password </label>
-      <input type="text" name="passwordTxt"> <br>
-    <a href="http://127.0.0.1/duniasiber/index.php/Autentikasi/daftarAkun"> Daftar </a> <br>
-    <a href="http://127.0.0.1/duniasiber/index.php/Autentikasi/lupaPassword"> Lupa Password? </a> <br>
-    <input type="submit" value="login">
-  </form>
-</body>
-</html>
+
+  var _user     = $("#userId").val();
+  var _password = $("#passwordId").val();
+
+  $.ajax({
+    type     : "POST",
+    url      : "http://127.0.0.1/duniasiber/index.php/Autentikasi/validasiLogin",
+    dataType : "json",
+    data     : {
+                user     : _user,
+                password : _password
+              },
+    success  : function(data) {
+                  if(data.error) {
+                    segarkanHalaman();
+                    validasi_login(data);
+                  }else {
+                    segarkanHalaman();
+                    inputValid = true;
+                    $("#formId").submit();
+                  }
+               }
+  });
+});
+
+function segarkanHalaman() {
+  $("#userId").removeClass("is-invalid");
+  $("#passwordId").removeClass("is-invalid");
+
+  $("#user-pesan").remove();
+  $("#password-pesan").remove();
+}
+
+function validasi_login(data) {
+  if(data.errUser == "kosong") {
+    $("#userId").addClass("is-invalid");
+    $("#user-input").append("<div class='invalid-feedback' id='user-pesan'> Input username/email masih kosong ! </div>");
+  }
+
+  if(data.errPassword == "kosong") {
+    $("#passwordId").addClass("is-invalid");
+    $("#password-input").append("<div class='invalid-feedback' id='password-pesan'> Input password masih kosong ! </div>");
+  }
+}
+
+});
+</script>
+
+<?php
+$this->load->view("layout/footer");
+?>

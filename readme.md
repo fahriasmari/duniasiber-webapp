@@ -1,10 +1,10 @@
-# duniasiber-webapp prototype
+# duniasiber-webapp
 > url : `saat ini tidak tersedia`
 
 :paperclip: [File Swimlane](https://drive.google.com/drive/folders/1H-IfMYFPv2dm7MqewmugP25OjFZRZQSv?usp=sharing)
 
 ### :exclamation: prosedur penggunaan github dalam tim
-- penamaan commit/message/variabel/function/comment(dokumentasi) menggunakan bahasa indonesia
+- penamaan commit/message/variabel/function/comment(dokumentasi)/dll menggunakan bahasa indonesia
   - alasan : mempermudah pemahaman alur kerja *script code*
 
 - jika ingin melakukan commit/push tidak bisa langsung ke branch `master`, tetapi harus membuat branch baru untuk selanjutnya di lakukan pull request

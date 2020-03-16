@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2020 at 03:03 PM
+-- Generation Time: Mar 16, 2020 at 02:25 AM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.1
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -83,13 +83,13 @@ ALTER TABLE `foto`
 -- AUTO_INCREMENT for table `akun`
 --
 ALTER TABLE `akun`
-  MODIFY `akun_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `akun_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `foto`
 --
 ALTER TABLE `foto`
-  MODIFY `foto_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `foto_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- Constraints for dumped tables
@@ -105,7 +105,7 @@ DELIMITER $$
 --
 -- Events
 --
-CREATE DEFINER=`root`@`localhost` EVENT `hapus_token_yang_sudah_kadaluarsa` ON SCHEDULE EVERY 30 MINUTE STARTS '2020-03-01 19:33:25' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `akun` SET `token` = NULL, `tgl_kadaluarsa_token` = NULL WHERE `tgl_kadaluarsa_token` < NOW()$$
+CREATE DEFINER=`root`@`localhost` EVENT `hapus_token_kadaluarsa` ON SCHEDULE EVERY 30 MINUTE STARTS '2020-01-01 00:00:01' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE `akun` SET `token` = NULL, `tgl_kadaluarsa_token` = NULL WHERE `tgl_kadaluarsa_token` < NOW()$$
 
 DELIMITER ;
 COMMIT;
