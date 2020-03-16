@@ -34,7 +34,7 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href=" <?php echo base_url('admin/dashboard_invoices') ?> ">
+        <a class="nav-link" href=" <?php echo base_url('admin/invoices') ?> ">
           <i class="fas fa-fw fa-file-invoice"></i>
           <span>Invoice</span></a>
       </li>
