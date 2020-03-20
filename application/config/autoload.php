@@ -88,6 +88,7 @@ $autoload['drivers'] = array();
 | Prototype:
 |
 |	$autoload['helper'] = array('url', 'file');
+    //untuk rooting
 */
 $autoload['helper'] = array('url');
 

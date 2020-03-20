@@ -41,7 +41,7 @@
 			   	<br>
 
 			    <a href="#" class="btn btn-sm btn-success">Detail</a>
-			    <a href="#" class="btn btn-sm btn-primary">Beli</a>
+			    <a href=" <?php echo base_url('dashboard/pembayaran') ?> " class="btn btn-sm btn-primary">Beli</a>
 			  </div>
 			</div>
 
