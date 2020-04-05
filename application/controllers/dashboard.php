@@ -24,10 +24,19 @@ class Dashboard extends CI_Controller
 
 	public function proses_pesanan()
 	{
-		$this->load->view('templates/header');
-		$this->load->view('templates/sidebar');
-		$this->load->view('proses_pesanan');
-		// lalu ke view
-		$this->load->view('templates/footer');
+		//menambahkan variable agar data yg diproses akan dikirim ke invoice admin
+		$is_processed = $this->model_invoice->index();
+		if($is_processed)
+		{
+			$this->load->view('templates/header');
+			$this->load->view('templates/sidebar');
+			$this->load->view('proses_pesanan');
+			$this->load->view('templates/footer');
+		}
+		else
+		{
+			echo "Maaf pesanan anda gagal di proses!";
+		}
+		
 	}
 }

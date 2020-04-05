@@ -13,8 +13,8 @@
 				</div>
 
 				<div class="form-group">
-					<label>no. Telepon</label>
-					<input type="text" name="no_telp" placeholder="Nomor Verifikasi Pesanan" class="form-control">
+					<label>Alamat Email</label>
+					<input type="text" name="email" placeholder="Verifikasi Email" class="form-control">
 				</div>
 
 				<div class="form-group">
