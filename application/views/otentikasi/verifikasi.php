@@ -13,21 +13,42 @@ $this->load->view("layout/header", $data);
           <!-- pesan -->
           <?php
           if(isset($pesan)) {
-            if($pesan == "Token telah kadaluarsa") {
+            if( strpos($pesan, "Token telah kadaluwarsa") ) {                   // jika strpos() == TRUE
           ?>
               <div class="alert alert-danger" role="alert"> <?= $pesan ?> </div>
           <?php
-            }else if( strpos($pesan, "Aktivasi akun berhasil") !== FALSE ) {
+            }else if( strpos($pesan, "Aktivasi akun berhasil") ) {
           ?>
               <div class="alert alert-success" role="alert"> <?= $pesan ?> </div>
           <?php
             }else {
           ?>
               <div class="alert alert-secondary" role="alert"> <?= $pesan ?> </div>
+              <script>
+              $(document).ready(function() {
+
+                var timer = 60;
+
+                var interval = setInterval(function() {                         // function ini akan dijalankan dalam interval 1 detik
+                  timer--;
+                  $("#detikTimer").text(timer);
+
+                  if (timer == 0) {
+                    $("#kirimUlang").attr("href", "<?= base_url("Autentikasi/kirimUlangEmail") ?>");
+                    $("#kirimUlang").removeClass("disabled");
+                    $("#detikTimer").remove();
+                    $("#kirimUlang").text("Kirim ulang email");
+
+                    clearInterval(interval);
+                  }
+                }, 1000);
+
+              });
+              </script>
           <?php
             }
           }else {
-            redirect("http://127.0.0.1/duniasiber/index.php/Autentikasi/loginAkun");
+            redirect( base_url("Autentikasi/loginAkun") );
           }
           ?>
         </div>

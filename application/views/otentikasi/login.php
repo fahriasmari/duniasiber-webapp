@@ -23,7 +23,7 @@ $this->load->view("layout/header", $data);
           <?php
           }
           ?>
-          <form id="formId" action="http://127.0.0.1/duniasiber/index.php/Autentikasi/loginAkun" method="post">
+          <form id="formId" action="<?= base_url("Autentikasi/loginAkun") ?>" method="post">
             <div class="form-group">
               <label> Username / Email </label>
               <div class="input-group" id="user-input">
@@ -47,7 +47,7 @@ $this->load->view("layout/header", $data);
               <input type="submit" class="btn btn-success btn-lg" value="Login">
             </div>
             <div class="form-group text-center">
-              <a href="http://127.0.0.1/duniasiber/index.php/Autentikasi/lupaPassword" class="text-secondary"> Lupa Password? </a>
+              <a href="<?= base_url("Autentikasi/lupaPassword") ?>" class="text-secondary"> Lupa Password? </a>
             </div>
           </form>
         </div>
@@ -75,7 +75,7 @@ $("#formId").on("submit", function(event) {
 
   $.ajax({
     type     : "POST",
-    url      : "http://127.0.0.1/duniasiber/index.php/Autentikasi/validasiLogin",
+    url      : "<?= base_url("Autentikasi/validasiLogin") ?>",
     dataType : "json",
     data     : {
                 user     : _user,

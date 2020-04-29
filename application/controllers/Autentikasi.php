@@ -1,25 +1,9 @@
 <?php
-class Autentikasi extends CI_Controller {        // penamaan controller, dan model harus kapital, saya rekomendasikan menggunakan format pernamaan: "pascal case"
+class Autentikasi extends CI_Controller {        // penamaan controller dan model harus kapital, saya rekomendasikan menggunakan format pernamaan: "pascal case"
   public function __construct() {
     parent::__construct();                       // menjalankan method __construct() dari class (parent): "CI_Controller"
 
     $this->load->model("AkunModel");             // load Model: AkunModel
-
-    $emailConfig = array(                        // konfigurasi email server
-                        "protocol"  => "smtp",
-                        "smtp_host" => "smtp.mailtrap.io",
-                        "smtp_port" => "2525",
-                        "smtp_user" => "f63429fe7364d3",
-                        "smtp_pass" => "d0b545d4b694f8",
-                        "crlf"      => "\r\n",
-                        "newline"   => "\r\n"
-                      );
-    /*
-    disini saya menggunakan dummy email server dari mailtrap.io,
-    karena belum mendapatkan email server yang gratis.
-    silahkan ubah konfigurasi nya menggunakan akun mailtrap masing2
-    */
-    $this->email->initialize($emailConfig);      // inisialisasi konfigurasi email
   }
 
   public function daftarAkun() {                 // untuk penamaan method dan variabel, saya rekomendasikan menggunankan format penamaan: "camel case"
@@ -32,7 +16,7 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
   }
 
   public function validasiUsername() {
-    $_errUsername = "";                                                         // ( nilai untuk menampung jenis error yang ditemukan )
+    $_errUsername = "";                                                         // nilai untuk menampung jenis error yang ditemukan
 
     $_username    = $this->input->post("username");
 
@@ -42,7 +26,7 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
       if(!empty($data)) {
         $_errUsername = "sudahDipakai";
       }
-    }else if(!preg_match( "/^[a-z0-9_-]*$/", $_username )) {                    // ( jika variabel tidak sesuai dengan format regex )
+    }else if(!preg_match( "/^[a-z0-9_-]*$/", $_username )) {                    // jika variabel tidak sesuai dengan format regex
       $_errUsername = "regex";
     }
 
@@ -50,11 +34,11 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
   }
 
   public function validasiDaftar() {
-    $_error          = FALSE;                                                   // ( nilai parameter jika ada error yang ditemukan )
-    $_errNama        = "";                                                      //
-    $_errEmail       = "";                                                      // ( nilai untuk menampung jenis error yang ditemukan )
-    $_errUsername    = "";                                                      //
-    $_errPassword    = "";                                                      //
+    $_error          = FALSE;                                                   // nilai parameter jika ada error yang ditemukan
+    $_errNama        = "";                                                      // nilai untuk menampung jenis error yang ditemukan
+    $_errEmail       = "";
+    $_errUsername    = "";
+    $_errPassword    = "";
 
     $_nama           = $this->input->post("nama");
     $_email          = $this->input->post("email");
@@ -84,7 +68,7 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
     }
 
     if(empty($_username)) {
-      $_error    = TRUE;
+      $_error       = TRUE;
       $_errUsername = "kosong";
     }else if($data = $this->AkunModel->cekUsername($_username)) {
       if(!empty($data)) {
@@ -104,7 +88,7 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
       $_errPassword = "tidakSama";
     }
 
-    if($_error) {                                                               // ( jika $_error == TRUE )
+    if($_error) {                                                               // jika $_error == TRUE
       echo json_encode([
                         "error"       => $_error,
                         "errNama"     => $_errNama,
@@ -117,7 +101,7 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
     }
   }
 
-  public function loginAkun($username=null, $password=null) {              // parameter default dari suatu method, username dan password = NULL
+  public function loginAkun($username=null, $password=null) {                   // parameter default dari suatu method, username dan password = NULL
     if(isset($username) && isset($password)) {
       $akun = $this->AkunModel->lakukanLogin($username, $password);
     }else if($this->input->post()) {
@@ -128,20 +112,20 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
     }
 
     if(isset($akun)) {
-      if($akun == "loginGagal") {                                          // (login gagal)
+      if($akun == "loginGagal") {                                          // login gagal
         $data["alert"] = "Login Gagal !";
       }else {
         if( empty($akun->diaktivasi_pada) ) {
-          $this->verifikasiEmail($akun->akun_id, $akun->email);            // jika akun belum di aktivasi/memverifikasi email
+          $this->verifikasiEmail($akun->akun_id, $akun->email);            // jika akun belum memverifikasi email
         }else {
-          $this->session->set_userdata("statuslogin", "sedangLogin");      //
-          $this->session->set_userdata("nama", $akun->nama);               // inisialisasi session ketika proses login
-          $this->session->set_userdata("peran", $akun->peran);             //
+          $this->session->set_userdata("statusLogin", "sedangLogin");      // inisialisasi session ketika proses login
+          $this->session->set_userdata("nama", $akun->nama);
+          $this->session->set_userdata("peran", $akun->peran);
 
           if($akun->peran == "ADMIN") {
-            redirect("http://127.0.0.1/duniasiber/index.php/Admin");       // jika peran adalah "ADMIN" arahkan ke controller: Admin
+            redirect( base_url("Admin") );                                 // jika peran adalah "ADMIN" arahkan ke controller: Admin
           }else if($akun->peran == "PELANGGAN") {
-            redirect("http://127.0.0.1/duniasiber/index.php/Pelanggan");   // jika peran adalah "PELANGGAN" arahkan ke controller: Pelanggan
+            redirect( base_url("Pelanggan") );                             // jika peran adalah "PELANGGAN" arahkan ke controller: Pelanggan
           }
 
         }
@@ -180,16 +164,32 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
     }
   }
 
-  public function verifikasiEmail($id=null, $email=null) {                      // (id dan email akun)
-    if( isset($id) ) {
+  public function verifikasiEmail($id=null, $email=null) {                      // id dan email akun
+    if( isset($id) && isset($email)) {
       $token = $this->AkunModel->inisialisasiToken($id);
       $this->kirimEmail($token, $email, "VERIFIKASI");                                      // method yang digunakan untuk mengirim email
+
+      $this->session->set_userdata("akunId", $id);                                          // parsing data penting akun dalam bentuk session
+      $this->session->set_userdata("akunEmail", $email);
+      $this->session->set_userdata("tujuan", "VERIFIKASI");
+      $this->session->set_userdata("waktuKadaluwarsa", date( "Y-m-d H:i:s", strtotime("+3 minutes", strtotime(date("Y-m-d H:i:s"))) ));
+      /*
+      parameter waktu kedaluwarsa session, session akan kadaluwarsa dalam 3 menit
+      */
+
       $this->session->set_userdata("sinyalVerifikasi", TRUE);                               // setel session sinyalVerifikasi ( $_SESSION["sinyalVerifikasi"] )
-      redirect("http://127.0.0.1/duniasiber/index.php/Autentikasi/verifikasiEmail");
-    }else if($this->session->sinyalVerifikasi) {                                            // ( pemberitahuan ketika email sudah dikirim )
-      $data["pesan"] = "Permintaan aktivasi akun telah dikirim ke email, silahkan buka email untuk melakukan proses aktivasi.
-                        email aktivasi akan kadaluarsa dalam 10 menit! <a href='#' class='alert-link'> Kirim ulang email ? </a>";
-                        // (fitur "kirim ulang email" dalam proses maintenance)
+      redirect( base_url("Autentikasi/verifikasiEmail") );
+    }else if($this->session->sinyalVerifikasi) {                                            // pemberitahuan ketika email sudah dikirim
+      $data["pesan"] = "<p>
+                          Permintaan aktivasi akun telah dikirim ke email, silahkan buka email untuk melakukan proses aktivasi.
+                          email aktivasi akan kadaluarsa dalam 10 menit!
+                        </p>
+                        <p>
+                          Email tidak terkirim ? <br>
+                          <a href='#' class='btn btn-primary disabled' id='kirimUlang' style='margin-top: 10px;'>
+                            Kirim ulang email dalam <span id='detikTimer'>60</span>
+                          </a>
+                        </p>";
 
       $this->session->unset_userdata("sinyalVerifikasi");                                   // hapus variabel $_SESSION["sinyalVerifikasi"]
     }else if($this->input->get("t")) {                                          // jika ada input token ( $_GET["t"] )
@@ -198,13 +198,15 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
       if(!empty($akun)) {
         if( $akun->tgl_kadaluarsa_token > date("Y-m-d H:i:s") ) {               // jika tanggal kadaluarsa token melebihi tanggal sekarang
           $this->AkunModel->aktivasiAkun($akun->akun_id);
-          $data["pesan"] = "Aktivasi akun berhasil,
-                            <a href='http://127.0.0.1/duniasiber/index.php/Autentikasi/loginAkun' class='alert-link'> klik disini </a> untuk login kembali";
+          $data["pesan"] = "<p>
+                              Aktivasi akun berhasil,
+                              <a href='". base_url("Autentikasi/loginAkun"). "' class='alert-link'> klik disini </a> untuk login kembali
+                            </p>";
         }else {
-          $data["pesan"] = "Token telah kadaluarsa";
+          $data["pesan"] = "<p> Token telah kadaluwarsa </p>";
         }
       }else {
-        $data["pesan"] = "Token telah kadaluarsa";
+        $data["pesan"] = "<p> Token telah kadaluwarsa </p>";
       }
     }
 
@@ -219,30 +221,48 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
         $this->session->unset_userdata("statusResetPass");
         $this->session->unset_userdata("akunId");
 
-        $data["pesan"] = "Password telah diubah,
-                          <a href='http://127.0.0.1/duniasiber/index.php/Autentikasi/loginAkun' class='alert-link'> klik disini </a> untuk login kembali";
+        $data["pesan"] = "<p>
+                            Password telah diubah,
+                            <a href='". base_url("Autentikasi/loginAkun"). "' class='alert-link'> klik disini </a> untuk login kembali
+                          </p>";
       }else {
         $token = $this->AkunModel->inisialisasiToken($this->input->post("emailTxt"));       // inisialisasi token untuk reset password
         $this->kirimEmail($token, $this->input->post("emailTxt"), "RESETPASSWORD");
 
-        $data["pesan"] = "Permintaan reset password telah dikirim ke email, silahkan buka email untuk melakukan proses reset password.
-                          email reset password akan kadaluarsa dalam 10 menit! <a href='#' class='alert-link'> Kirim ulang email ? </a>";
-                          // (fitur "kirim ulang email" dalam proses maintenance)
+        $this->session->set_userdata("akunEmail", $this->input->post("emailTxt"));
+        $this->session->set_userdata("tujuan", "RESETPASSWORD");
+        $this->session->set_userdata("waktuKadaluwarsa", date( "Y-m-d H:i:s", strtotime("+3 minutes", strtotime(date("Y-m-d H:i:s"))) ));
+
+        $this->session->set_userdata("sinyalVerifikasi", TRUE);
+        redirect( base_url("Autentikasi/lupaPassword") );
       }
+    }else if($this->session->sinyalVerifikasi) {
+      $data["pesan"] = "<p>
+                          Permintaan reset password telah dikirim ke email, silahkan buka email untuk melakukan proses reset password.
+                          email reset password akan kadaluarsa dalam 10 menit!
+                        </p>
+                        <p>
+                          Email tidak terkirim ? <br>
+                          <a href='#' class='btn btn-primary disabled' id='kirimUlang' style='margin-top: 10px;'>
+                            Kirim ulang email dalam <span id='detikTimer'>60</span>
+                          </a>
+                        </p>";
+
+      $this->session->unset_userdata("sinyalVerifikasi");
     }else if($this->input->get("t")) {
       $akun = $this->AkunModel->cekToken($this->input->get("t"));
 
       if(!empty($akun)) {
         if( $akun->tgl_kadaluarsa_token > date("Y-m-d H:i:s") ) {
-          $this->session->set_userdata("statusResetPass", TRUE);                            // ( mode form: atur ulang password baru = diaktifkan! )
+          $this->session->set_userdata("statusResetPass", TRUE);                            // mode form: atur ulang password baru = diaktifkan!
           $this->session->set_userdata("akunId", $akun->akun_id);                           // dibuat hanya untuk parsing data akun_id
 
-          redirect("http://127.0.0.1/duniasiber/index.php/Autentikasi/lupaPassword");
+          redirect( base_url("Autentikasi/lupaPassword") );
         }else {
-          $data["pesan"] = "Token telah kadaluarsa";
+          $data["pesan"] = "<p> Token telah kadaluwarsa </p>";
         }
       }else {
-        $data["pesan"] = "Token telah kadaluarsa";
+        $data["pesan"] = "<p> Token telah kadaluwarsa </p>";
       }
     }
 
@@ -298,17 +318,65 @@ class Autentikasi extends CI_Controller {        // penamaan controller, dan mod
     }
   }
 
-  public function kirimEmail($token, $email, $tujuan) {
+  public function kirimUlangEmail() {                                                       // fitur kirim ulang email
+    if($this->session->waktuKadaluwarsa > date("Y-m-d H:i:s")) {
+      if($this->session->tujuan == "VERIFIKASI") {
+        $token = $this->AkunModel->inisialisasiToken($this->session->akunId);
+        $this->kirimEmail($token, $this->session->akunEmail, "VERIFIKASI");
+        $this->session->set_userdata("waktuKadaluwarsa", date( "Y-m-d H:i:s", strtotime("+3 minutes", strtotime(date("Y-m-d H:i:s"))) ));
+        /*
+        nilai waktuKadaluwarsa di reset
+        */
+
+        $this->session->set_userdata("sinyalVerifikasi", TRUE);
+        redirect( base_url("Autentikasi/verifikasiEmail") );
+      }else if($this->session->tujuan == "RESETPASSWORD") {
+        $token = $this->AkunModel->inisialisasiToken($this->session->akunEmail);
+        $this->kirimEmail($token, $this->session->akunEmail, "RESETPASSWORD");
+        $this->session->set_userdata("waktuKadaluwarsa", date( "Y-m-d H:i:s", strtotime("+3 minutes", strtotime(date("Y-m-d H:i:s"))) ));
+
+        $this->session->set_userdata("sinyalVerifikasi", TRUE);
+        redirect( base_url("Autentikasi/lupaPassword") );
+      }
+    }else {
+      if($this->session->tujuan == "VERIFIKASI") {
+        $this->session->unset_userdata("akunId");
+        $this->session->unset_userdata("akunEmail");
+        $this->session->unset_userdata("tujuan");
+        $this->session->unset_userdata("waktuKadaluwarsa");
+      }else if($this->session->tujuan == "RESETPASSWORD") {
+        $this->session->unset_userdata("akunEmail");
+        $this->session->unset_userdata("tujuan");
+        $this->session->unset_userdata("waktuKadaluwarsa");
+      }
+    }
+
+    if(!$this->session->waktuKadaluwarsa) {
+      echo "<script>
+            alert('sesi telah kadaluwarsa !');
+            window.location = '". base_url("Pelanggan"). "';
+            </script>";
+    }
+  }
+
+  private function kirimEmail($token, $email, $tujuan) {
+    $this->email->set_mailtype("html");                                                     // setel mailtype: html
     $this->email->from("itsupport-duniasiber@email.com", "IT Support-duniasiber");          // (hanya untuk sementara)
     $this->email->to($email);                                                               // email pemilik akun
 
-    if($tujuan == "VERIFIKASI") {                                                                            // pengiriman email untuk tujuan aktivasi akun
+    $data["email"] = $email;
+    $data["tujuan"] = $tujuan;
+
+    if($tujuan == "VERIFIKASI") {                                                                            // pengiriman email untuk tujuan verifikasi email
       $this->email->subject("Verifikasi Email");
-      $this->email->message("http://127.0.0.1/duniasiber/index.php/Autentikasi/verifikasiEmail?t=". $token);
+      $data["token"] = base_url("Autentikasi/verifikasiEmail"). "?t=". $token;
     }else if($tujuan == "RESETPASSWORD") {                                                                   // pengiriman email untuk tujuan reset password
       $this->email->subject("Reset Password");
-      $this->email->message("http://127.0.0.1/duniasiber/index.php/Autentikasi/lupaPassword?t=". $token);
+      $data["token"] = base_url("Autentikasi/lupaPassword"). "?t=". $token;
     }
+
+    $dataEmail = $this->load->view("layout/email", $data, TRUE);
+    $this->email->message($dataEmail);
 
     $this->email->send();
   }

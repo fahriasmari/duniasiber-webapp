@@ -11,7 +11,7 @@ $this->load->view("layout/header", $data);
       <div class="card bg-light my-5">
         <div class="card-body">
           <h4 class="card-title mb-4 text-center"> Daftar Akun Baru </h4>
-          <form id="formId" action="http://127.0.0.1/duniasiber/index.php/Autentikasi/daftarAkun" method="post">
+          <form id="formId" action="<?= base_url("Autentikasi/daftarAkun") ?>" method="post">
             <div class="form-group" id="nama-input">
               <label> Nama </label>
               <input type="text" class="form-control" id="namaId" name="namaTxt">                                             <!-- input nama -->
@@ -39,7 +39,7 @@ $this->load->view("layout/header", $data);
               <input type="submit" class="btn btn-primary btn-lg" value="Daftar">
             </div>
             <div class="form-group text-center">
-              <a href="http://127.0.0.1/duniasiber/index.php/Autentikasi/loginAkun" class="text-secondary"> Sudah punya akun? </a>
+              <a href="<?= base_url("Autentikasi/loginAkun") ?>" class="text-secondary"> Sudah punya akun? </a>
             </div>
           </form>
         </div>
@@ -49,18 +49,18 @@ $this->load->view("layout/header", $data);
 </div>
 
 <script>
-$(document).ready(function() {                                                  // jika dokumen html file ini telah dimuat
+$(document).ready(function() {                                                  // ( jika dokumen html file ini telah dimuat... )
 
-var inputValid = false;                                                         // ( parameter validasi dalam satu form )
+var inputValid = false;                                                         // parameter validasi form
 
-$("body").attr("class", "bg-dark");                                             // modifikasi class body untuk halaman daftar
+$("body").attr("class", "bg-dark");                                             // modifikasi class body
 
 $("#cekUsername").click(function() {                                            // jika ada event: tombol periksa( #cekUsername ) di klik
   var _username = $("#usernameId").val();
 
   $.ajax({
     type     : "POST",
-    url      : "http://127.0.0.1/duniasiber/index.php/Autentikasi/validasiUsername",
+    url      : "<?= base_url("Autentikasi/validasiUsername") ?>",
     dataType : "json",
     data     : { username : _username },
     success  : function(data) {
@@ -74,7 +74,7 @@ $("#formId").on("submit", function(event) {                                     
   if(!inputValid) {
     event.preventDefault();
   }else {
-    return;                                                                     // ( mencegah function ini dijalankan berulang )
+    return;                                                                     // mencegah function ini dijalankan berulang
   }
 
   var _nama           = $("#namaId").val();
@@ -85,7 +85,7 @@ $("#formId").on("submit", function(event) {                                     
 
   $.ajax({
     type     : "POST",
-    url      : "http://127.0.0.1/duniasiber/index.php/Autentikasi/validasiDaftar",
+    url      : "<?= base_url("Autentikasi/validasiDaftar") ?>",
     dataType : "json",
     data     : {
                 nama           : _nama,
@@ -114,7 +114,7 @@ function segarkanInputUsername() {
   $("#username-pesan").remove();
 }
 
-function validasi_username(username) {                                              // ( parameter berupa object )
+function validasi_username(username) {
   if(username == "kosong") {
     $("#usernameId").addClass("is-invalid");
     $("#username-input").append("<div class='invalid-feedback' id='username-pesan'> Input username masih kosong ! </div>");
@@ -123,7 +123,7 @@ function validasi_username(username) {                                          
     $("#username-input").append("<div class='invalid-feedback' id='username-pesan'> Username telah dipakai ! </div>");
   }else if(username == "regex") {
     $("#usernameId").addClass("is-invalid");
-    $("#username-input").append("<div class='invalid-feedback' id='username-pesan'> Karakter yang diperbolehkan hanya alfabet, numerik, simbol: garis bawah, dan strip ! </div>");
+    $("#username-input").append("<div class='invalid-feedback' id='username-pesan'> Karakter yang diperbolehkan hanya alfabet(LowerCase), numerik, simbol: garis bawah, dan strip ! </div>");
   }else if(username == "") {
     $("#usernameId").addClass("is-valid");
     $("#username-input").append("<div class='valid-feedback' id='username-pesan'> Username tersedia </div>");
@@ -145,7 +145,7 @@ function segarkanHalaman() {
   $("#password-pesan").remove();
 }
 
-function validasi_daftar(data) {
+function validasi_daftar(data) {                                                // ( parameter berupa object )
   if(data.errNama == "kosong") {
     $("#namaId").addClass("is-invalid");
     $("#nama-input").append("<div class='invalid-feedback' id='nama-pesan'> Input nama masih kosong ! </div>");
@@ -176,7 +176,7 @@ function validasi_daftar(data) {
     $("#username-input").append("<div class='invalid-feedback' id='username-pesan'> Username telah dipakai ! </div>");
   }else if(data.errUsername == "regex") {
     $("#usernameId").addClass("is-invalid");
-    $("#username-input").append("<div class='invalid-feedback' id='username-pesan'> Karakter yang diperbolehkan hanya alfabet, numerik, dan simbol: garis bawah, dan strip ! </div>");
+    $("#username-input").append("<div class='invalid-feedback' id='username-pesan'> Karakter yang diperbolehkan hanya alfabet(LowerCase), numerik, dan simbol: garis bawah, dan strip ! </div>");
   }else if(data.errUsername == "") {
     $("#usernameId").addClass("is-valid");
     $("#username-input").append("<div class='valid-feedback' id='username-pesan'> Username tersedia </div>");

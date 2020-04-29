@@ -1,7 +1,7 @@
 # duniasiber-webapp
 > url : `saat ini tidak tersedia`
 
-:paperclip: [File Swimlane](https://drive.google.com/drive/folders/1H-IfMYFPv2dm7MqewmugP25OjFZRZQSv?usp=sharing)
+:large_blue_diamond: jangan lupa untuk selalu memonitor aktivitas kanban yang ada di trello
 
 ### :exclamation: prosedur penggunaan github dalam tim
 - penamaan commit/message/variabel/function/comment(dokumentasi)/dll menggunakan bahasa indonesia

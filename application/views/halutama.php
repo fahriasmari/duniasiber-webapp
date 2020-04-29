@@ -11,7 +11,8 @@ $this->load->view("layout/navbar");                                             
 
 <?php
 // ( hanya untuk sementara )
-if(isset($_SESSION["statuslogin"]) == "sedangLogin") {
+if(isset($_SESSION["statusLogin"]) == "sedangLogin") {
+  echo @$_SESSION['statusLogin']. "<br>";
   echo @$_SESSION["nama"]. "<br>";
   echo @$_SESSION["peran"]. "<br>";
 

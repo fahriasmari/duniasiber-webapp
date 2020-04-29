@@ -5,9 +5,11 @@ $data["frameworkCss"] = "bootstrap";
 $this->load->view("layout/header", $data);
 ?>
 
+~ ADMIN
 <?php
 // ( hanya untuk sementara )
-if(isset($_SESSION["statuslogin"]) == "sedangLogin") {
+if(isset($_SESSION["statusLogin"]) == "sedangLogin") {
+  echo @$_SESSION['statusLogin']. "<br>";
   echo @$_SESSION["nama"]. "<br>";
   echo @$_SESSION["peran"]. "<br>";
 

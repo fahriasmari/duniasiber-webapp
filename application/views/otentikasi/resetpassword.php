@@ -22,17 +22,38 @@ $this->load->view("layout/header", $data);
         <div class="card-body">
           <?php
           if(isset($pesan)) {
-            if($pesan == "Token telah kadaluarsa") {
+            if( strpos($pesan, "Token telah kadaluwarsa") ) {
           ?>
               <div class="alert alert-danger" role="alert"> <?= $pesan ?> </div>
           <?php
-            }else if( strpos($pesan, "Password telah diubah") !== FALSE ) {
+            }else if( strpos($pesan, "Password telah diubah") ) {
           ?>
               <div class="alert alert-success" role="alert"> <?= $pesan ?> </div>
           <?php
             }else {
           ?>
               <div class="alert alert-secondary" role="alert"> <?= $pesan ?> </div>
+              <script>
+              $(document).ready(function() {
+
+                var timer = 60;
+
+                var interval = setInterval(function() {
+                  timer--;
+                  $("#detikTimer").text(timer);
+
+                  if (timer == 0) {
+                    $("#kirimUlang").attr("href", "<?= base_url("Autentikasi/kirimUlangEmail") ?>");
+                    $("#kirimUlang").removeClass("disabled");
+                    $("#detikTimer").remove();
+                    $("#kirimUlang").text("Kirim ulang email");
+
+                    clearInterval(interval);
+                  }
+                }, 1000);
+
+              });
+              </script>
           <?php
             }
           }else{
@@ -42,7 +63,7 @@ $this->load->view("layout/header", $data);
             if( isset($_SESSION['statusResetPass']) ) {
           ?>
 
-              <form id="aturUlangPassBaruForm" action="http://127.0.0.1/duniasiber/index.php/Autentikasi/lupaPassword" method="post">
+              <form id="aturUlangPassBaruForm" action="<?= base_url("Autentikasi/lupaPassword") ?>" method="post">
               <!-- ( mode form: atur ulang password baru ) -->
                 <div class="form-group" id="password-input">
                   <label> Masukkan password baru </label>
@@ -51,7 +72,7 @@ $this->load->view("layout/header", $data);
                 </div>
                 <hr>
                 <div class="form-group text-center">
-                  <input type="submit" class="btn btn-info btn-lg" value="Kirim">
+                  <input type="submit" class="btn btn-info btn-lg" value="Submit">
                 </div>
               </form>
 
@@ -59,7 +80,7 @@ $this->load->view("layout/header", $data);
             }else {
           ?>
 
-              <form id="requestUbahPasswordForm" action="http://127.0.0.1/duniasiber/index.php/Autentikasi/lupaPassword" method="post">
+              <form id="requestUbahPasswordForm" action="<?= base_url("Autentikasi/lupaPassword") ?>" method="post">
               <!-- ( mode form: request ubah password ) -->
                 <div class="form-group" id="email-input">
                   <label> Masukkan email yang didaftarkan </label>
@@ -89,7 +110,7 @@ var inputValid = false;
 
 $("body").attr("class", "bg-dark");
 
-$("#requestUbahPasswordForm").on("submit", function(event) {                    // ( validasi untuk, mode form: request ubah password )
+$("#requestUbahPasswordForm").on("submit", function(event) {                    // validasi untuk, mode form: request ubah password
   if(!inputValid) {
     event.preventDefault();
   }else {
@@ -100,7 +121,7 @@ $("#requestUbahPasswordForm").on("submit", function(event) {                    
 
   $.ajax({
     type     : "POST",
-    url      : "http://127.0.0.1/duniasiber/index.php/Autentikasi/validasiRequestUbahPassword",
+    url      : "<?= base_url("Autentikasi/validasiRequestUbahPassword") ?>",
     dataType : "json",
     data     : { email : _email },
     success  : function(data) {
@@ -116,7 +137,7 @@ $("#requestUbahPasswordForm").on("submit", function(event) {                    
   });
 });
 
-$("#aturUlangPassBaruForm").on("submit", function(event) {                      // ( validasi untuk, mode form: atur ulang password baru )
+$("#aturUlangPassBaruForm").on("submit", function(event) {                      // validasi untuk, mode form: atur ulang password baru
   if(!inputValid) {
     event.preventDefault();
   }else {
@@ -128,7 +149,7 @@ $("#aturUlangPassBaruForm").on("submit", function(event) {                      
 
   $.ajax({
     type     : "POST",
-    url      : "http://127.0.0.1/duniasiber/index.php/Autentikasi/validasiAturUlangPassBaru",
+    url      : "<?= base_url("Autentikasi/validasiAturUlangPassBaru") ?>",
     dataType : "json",
     data     : {
                 password       : _password,

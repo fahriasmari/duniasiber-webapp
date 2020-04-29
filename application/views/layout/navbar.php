@@ -1,19 +1,27 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="#"> DuniaSiber </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="<?= base_url("Pelanggan") ?>">
+      <img src="<?= base_url("assets/img/brand-logo.png") ?>" width="145">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarToggle">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#"> Forum Diskusi </a>
+          <a class="nav-link" href="#"> Kursus </a>
         </li>
       </ul>
-      <a href="http://127.0.0.1/duniasiber/index.php/Autentikasi/loginAkun" class="btn btn-link text-white"> <i class="fas fa-sign-in-alt"></i> Masuk </a>
-      <a href="http://127.0.0.1/duniasiber/index.php/Autentikasi/daftarAkun" class="btn btn-outline-light"> Daftar </a>
-    </div>
 
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="<?= base_url("Autentikasi/loginAkun") ?>" class="btn btn-link text-white" style="width: 100px;"> <i class="fas fa-sign-in-alt"></i> Masuk </a>
+        </li>
+        <li class="nav-item">
+          <a href="<?= base_url("Autentikasi/daftarAkun") ?>" class="btn btn-outline-light" style="width: 100px;"> Daftar </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
