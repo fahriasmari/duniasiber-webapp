@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+date_default_timezone_set('Asia/Jakarta');                                      // setel zona waktu: Asia/Jakarta
+
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -23,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '';
+$config['base_url'] = 'http://'. $_SERVER['SERVER_NAME']. '/duniasiber-webapp/';       // nilai base_url
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +37,7 @@ $config['base_url'] = '';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
