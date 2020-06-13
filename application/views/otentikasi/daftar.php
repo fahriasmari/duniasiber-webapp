@@ -1,4 +1,3 @@
-<!-- desain UI masih dapat berubah-ubah sebelum masuk production -->
 <?php
 $data["title"]        = "DuniaSiber";
 $data["frameworkCss"] = "bootstrap";
@@ -100,7 +99,7 @@ $("#formId").on("submit", function(event) {                                     
                     validasi_daftar(data);
                   }else {
                     segarkanHalaman();
-                    inputValid = true;                                          // ( merubah nilai parameter )
+                    inputValid = true;                                          // merubah nilai parameter
                     $("#formId").submit();
                   }
                }
@@ -145,7 +144,7 @@ function segarkanHalaman() {
   $("#password-pesan").remove();
 }
 
-function validasi_daftar(data) {                                                // ( parameter berupa object )
+function validasi_daftar(data) {                                                // parameter berupa object
   if(data.errNama == "kosong") {
     $("#namaId").addClass("is-invalid");
     $("#nama-input").append("<div class='invalid-feedback' id='nama-pesan'> Input nama masih kosong ! </div>");

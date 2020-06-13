@@ -75,11 +75,11 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '127.0.0.1', 					// localhost (lokal)
+	'hostname' => $_SERVER['SERVER_NAME'],																				// localhost (lokal)
 	'username' => 'root',
 	'password' => '',
-	'database' => 'duniasiber_db', 			// nama database
-	'dbdriver' => 'mysqli',							// query driver yang dipakai : mysqli
+	'database' => 'duniasiber_db', 																								// nama database
+	'dbdriver' => 'mysqli',																												// query driver yang dipakai : mysqli
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),

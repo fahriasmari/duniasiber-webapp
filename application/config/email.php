@@ -10,8 +10,7 @@ $config = array(
                 "newline"   => "\r\n"
               );
 /*
-disini saya menggunakan dummy email server dari mailtrap.io,
-karena belum mendapatkan email server yang gratis.
-silahkan ubah konfigurasi nya menggunakan akun mailtrap masing2
+disini saya menggunakan dummy email server dari mailtrap.io, karena belum mendapatkan email server yang gratis.
+silahkan ubah konfigurasi nya menggunakan akun mailtrap masing2 !
 */
 ?>

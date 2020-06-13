@@ -1,7 +1,7 @@
 # duniasiber-webapp
 > url : `saat ini tidak tersedia`
 
-:large_blue_diamond: jangan lupa untuk selalu memonitor aktivitas kanban yang ada di trello
+:small_blue_diamond: jangan lupa untuk selalu memonitor aktivitas kanban yang ada di trello
 
 ### :exclamation: prosedur penggunaan github dalam tim
 - penamaan commit/message/variabel/function/comment(dokumentasi)/dll menggunakan bahasa indonesia
@@ -12,6 +12,6 @@
 
 - penamaan branch harus ditulis dengan format [proses/fungsi]-[nama pembuat/username]
   - alasan : untuk memudahkan mengorganisir commit jika ada dua orang atau lebih mengerjakan proses/fungsi yang sama
-  - contohnya seperti : login-aqil **atau** login-realxnesia
+  - contohnya seperti : login-kensen **atau** login-realxnesia
 
 GOOD LUCK :+1:

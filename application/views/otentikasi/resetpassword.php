@@ -1,4 +1,3 @@
-<!-- desain UI masih dapat berubah-ubah sebelum masuk production -->
 <?php
 $data["title"]        = "DuniaSiber";
 $data["frameworkCss"] = "bootstrap";
@@ -43,7 +42,7 @@ $this->load->view("layout/header", $data);
                   $("#detikTimer").text(timer);
 
                   if (timer == 0) {
-                    $("#kirimUlang").attr("href", "<?= base_url("Autentikasi/kirimUlangEmail") ?>");
+                    $("#kirimUlang").attr("href", "<?= base_url("Umum/kirimUlangEmail") ?>");
                     $("#kirimUlang").removeClass("disabled");
                     $("#detikTimer").remove();
                     $("#kirimUlang").text("Kirim ulang email");
@@ -60,7 +59,7 @@ $this->load->view("layout/header", $data);
           ?>
             <h4 class="card-title mb-4 text-center"> Reset Password </h4>
           <?php
-            if( isset($_SESSION['statusResetPass']) ) {
+            if( $this->session->statusResetPass ) {
           ?>
 
               <form id="aturUlangPassBaruForm" action="<?= base_url("Autentikasi/lupaPassword") ?>" method="post">
@@ -96,7 +95,6 @@ $this->load->view("layout/header", $data);
             }
           }
           ?>
-
         </div>
       </div>
     </div>
@@ -127,7 +125,7 @@ $("#requestUbahPasswordForm").on("submit", function(event) {                    
     success  : function(data) {
                   if(data.error) {
                     segarkanHalaman();
-                    validasi_requestUbahPassword(data);
+                    validasi_requestUbahPassword(data.errEmail);
                   }else {
                     segarkanHalaman();
                     inputValid = true;
@@ -158,7 +156,7 @@ $("#aturUlangPassBaruForm").on("submit", function(event) {                      
     success  : function(data) {
                   if(data.error) {
                     segarkanHalaman();
-                    validasi_aturUlangPassBaru(data);
+                    validasi_aturUlangPassBaru(data.errPassword);
                   }else {
                     segarkanHalaman();
                     inputValid = true;
@@ -177,22 +175,22 @@ function segarkanHalaman() {
   $("#password-pesan").remove();
 }
 
-function validasi_requestUbahPassword(data) {
-  if(data.errEmail == "kosong") {
+function validasi_requestUbahPassword(email) {
+  if(email == "kosong") {
     $("#emailId").addClass("is-invalid");
     $("#email-input").append("<div class='invalid-feedback' id='email-pesan'> Input email masih kosong ! </div>");
-  }else if(data.errEmail == "regex") {
+  }else if(email == "regex") {
     $("#emailId").addClass("is-invalid");
     $("#email-input").append("<div class='invalid-feedback' id='email-pesan'> Format email tidak sesuai ! </div>");
   }
 }
 
-function validasi_aturUlangPassBaru(data) {
-  if(data.errPassword == "kosong") {
+function validasi_aturUlangPassBaru(password) {
+  if(password == "kosong") {
     $("#passwordId").addClass("is-invalid");
     $("#ulangipasswordId").addClass("is-invalid");
     $("#password-input").append("<div class='invalid-feedback' id='password-pesan'> Input password masih ada yang kosong ! </div>");
-  }else if(data.errPassword == "tidakSama") {
+  }else if(password == "tidakSama") {
     $("#passwordId").addClass("is-invalid");
     $("#ulangipasswordId").addClass("is-invalid");
     $("#password-input").append("<div class='invalid-feedback' id='password-pesan'> Input password tidak sama ! </div>");

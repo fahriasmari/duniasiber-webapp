@@ -1,4 +1,3 @@
-<!-- desain UI masih dapat berubah-ubah sebelum masuk production -->
 <?php
 $data["title"]        = "DuniaSiber";
 $data["frameworkCss"] = "bootstrap";
@@ -34,7 +33,7 @@ $this->load->view("layout/header", $data);
                   $("#detikTimer").text(timer);
 
                   if (timer == 0) {
-                    $("#kirimUlang").attr("href", "<?= base_url("Autentikasi/kirimUlangEmail") ?>");
+                    $("#kirimUlang").attr("href", "<?= base_url("Umum/kirimUlangEmail") ?>");
                     $("#kirimUlang").removeClass("disabled");
                     $("#detikTimer").remove();
                     $("#kirimUlang").text("Kirim ulang email");

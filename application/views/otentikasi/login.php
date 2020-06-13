@@ -1,4 +1,3 @@
-<!-- desain UI masih dapat berubah-ubah sebelum masuk production -->
 <?php
 $data["title"]        = "DuniaSiber";
 $data['frameworkCss'] = "bootstrap";
@@ -14,7 +13,7 @@ $this->load->view("layout/header", $data);
           <?php
           if(isset($alert)) {
           ?>
-          <div class="alert alert-danger" role="alert">                                                                    <!-- ( alert ) -->
+          <div class="alert alert-danger" role="alert">                                                           <!-- ( alert ) -->
             <strong> <?= $alert ?> </strong>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -27,7 +26,7 @@ $this->load->view("layout/header", $data);
             <div class="form-group">
               <label> Username / Email </label>
               <div class="input-group" id="user-input">
-                <input type="text" class="form-control" name="userTxt" id="userId">                                        <!-- input username/email -->
+                <input type="text" class="form-control" id="userId" name="userTxt">                               <!-- input username/email -->
                 <div class="input-group-append">
                   <span class="input-group-text"> <i class="far fa-user"></i> </span>
                 </div>
@@ -36,7 +35,7 @@ $this->load->view("layout/header", $data);
             <div class="form-group">
               <label> Password </label>
               <div class="input-group" id="password-input">
-                <input type="password" class="form-control" name="passwordTxt" id="passwordId">                            <!-- input password -->
+                <input type="password" class="form-control" id="passwordId" name="passwordTxt">                   <!-- input password -->
                 <div class="input-group-append">
                   <span class="input-group-text"> <i class="fas fa-lock"></i> </span>
                 </div>
